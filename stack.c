@@ -5,6 +5,13 @@ void init_stack(stack *s) {
   s->n = 0;
 }
 
+void init_stack_array(stack *s, int a[], int n) {
+  init_stack(s);
+  for (int i = 0; i < n; i++) {
+    push_stack(s, a[i]);
+  }
+}
+
 void push_stack(stack *s, int x) {
   assert(s);
   s->a[s->n++] = x;

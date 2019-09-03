@@ -13,6 +13,7 @@ typedef struct queue {
 } queue;
 
 void init_queue(queue *q);
+void init_queue_array(queue *q, int a[], int n);
 bool is_empty_queue(queue *q);
 void enqueue(queue *q, int x);
 int dequeue(queue *q);

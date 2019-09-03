@@ -6,6 +6,13 @@ void init_queue(queue *q) {
   q->end = 0;
 }
 
+void init_queue_array(queue *q, int a[], int n) {
+  init_queue(q);
+  for (int i = 0; i < n; i++) {
+    enqueue(q, a[i]);
+  }
+}
+
 bool is_empty_queue(queue *q) {
   assert(q);
   return q->end == q->start;
