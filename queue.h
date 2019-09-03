@@ -8,8 +8,8 @@
 
 typedef struct queue {
   int a[MAXQ];
-  int n;
   int start;
+  int end;
 } queue;
 
 void init_queue(queue *q);
