@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS= -Wall -Wextra -g
-DEPS = graph.h
-OBJ = graph.o
+DEPS = graph.h stack.h
+OBJ = graph.o stack.o
 MAINSRC = main.c
 
 %.o: %.c $(DEPS)
