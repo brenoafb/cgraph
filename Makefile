@@ -1,7 +1,7 @@
-CC=gcc
+CC=tcc
 CFLAGS= -Wall -Wextra -g
-DEPS = graph.h stack.h queue.h bfs.h
-OBJ = graph.o stack.o queue.o bfs.o
+DEPS = graph.h stack.h queue.h search.h
+OBJ = graph.o stack.o queue.o search.o
 MAINSRC = main.c
 
 %.o: %.c $(DEPS)
