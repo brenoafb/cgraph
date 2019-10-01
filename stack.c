@@ -28,3 +28,10 @@ int pop_stack(stack *s) {
   assert(s->n > 0);
   return s->a[--s->n];
 }
+
+void print_stack(stack *s) {
+  for (int i = s->n-1; i >= 0; i--) {
+    printf("%d ", s->a[i]);
+  }
+  printf("\n");
+}

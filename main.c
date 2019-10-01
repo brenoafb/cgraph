@@ -1,36 +1,33 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "graph.h"
+#include "stack.h"
 #include "search.h"
 
 void process_edge(int u, int v);
 void process_vertex_early(int v);
 void process_vertex_late(int v);
+void topological_sort(graph *g);
+
+stack s;
+search_data data;
 
 int main(void) {
   graph g;
-  read_graph(&g, false);
+  read_graph(&g, true);
   print_graph(&g);
 
-  search_data data;
-  init_search_data(&g, &data);
-  data.process_edge = process_edge;
-  data.process_vertex_early = process_vertex_early;
-  data.process_vertex_late = process_vertex_late;
-
-  printf("BFS\n");
-  bfs(&g, &data, 0);
-
-  init_search_data(&g, &data);
-
-  printf("\nDFS\n");
-  dfs(&g, &data, 0);
+  topological_sort(&g);
 
   deinit_graph(&g);
 }
 
 void process_edge(int u, int v) {
   printf("Found edge (%d,%d)\n", u, v);
+  int class = edge_classification(&data, u, v);
+  if (class == BACK) {
+    printf("Warning: found back edge (not a DAG)\n");
+  }
 }
 
 void process_vertex_early(int v) {
@@ -39,4 +36,22 @@ void process_vertex_early(int v) {
 
 void process_vertex_late(int v) {
   printf("Done processing vertex %d\n", v);
+  push_stack(&s, v);
 }
+
+void topological_sort(graph *g) {
+  init_stack(&s);
+  init_search_data(g, &data);
+  data.process_edge = process_edge;
+  data.process_vertex_early = process_vertex_early;
+  data.process_vertex_late = process_vertex_late;
+
+  for (int i = 0; i < g->nvertices; i++) {
+    if (!data.discovered[i]) {
+      dfs(g, &data, i);
+    }
+  }
+
+  print_stack(&s);
+}
+
