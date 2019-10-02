@@ -14,7 +14,7 @@ void initialize_graph(graph *g, bool directed) {
 }
 
 void deinit_list(edgenode *e) {
-  if (!e) {
+  if (e) {
     edgenode *p = e->next;
     free(e);
     deinit_list(p);
@@ -27,7 +27,6 @@ void deinit_graph(graph *g) {
     if (g->edges[i]) {
       deinit_list(g->edges[i]);
     }
-    free(g->edges[i]);
   }
 }
 
@@ -79,4 +78,3 @@ void print_graph(graph *g) {
     }
   }
 }
-
