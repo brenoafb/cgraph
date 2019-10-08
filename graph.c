@@ -30,7 +30,7 @@ void deinit_graph(graph *g) {
   }
 }
 
-void read_graph(graph *g, bool directed) {
+void read_graph(graph *g, bool directed, bool weighted) {
   if (!g) return;
   initialize_graph(g, directed);
 
@@ -39,12 +39,17 @@ void read_graph(graph *g, bool directed) {
 
   for (int i = 0; i < nedges; i++) {
     int x, y;
-    scanf("%d %d", &x, &y);
-    insert_edge(g, x, y, directed);
+    int w = 0;
+    if (weighted) {
+      scanf("%d %d %d", &x, &y, &w);
+    } else {
+      scanf("%d %d", &x, &y);
+    }
+    insert_edge(g, x, y, w, directed);
   }
 }
 
-void insert_edge(graph *g, int x, int y, bool directed) {
+void insert_edge(graph *g, int x, int y, int w, bool directed) {
   if (!g) return;
 
   edgenode *p = malloc(sizeof(edgenode));
@@ -55,7 +60,7 @@ void insert_edge(graph *g, int x, int y, bool directed) {
   g->degrees[x]++;
 
   if (!directed) {
-    insert_edge(g, y, x, !directed);
+    insert_edge(g, y, x, w, !directed);
   } else {
     g->nedges++;
   }
