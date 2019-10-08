@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <assert.h>
 #include "graph.h"
 #include "stack.h"
 #include "search.h"
@@ -8,13 +9,14 @@ void process_edge(int u, int v);
 void process_vertex_early(int v);
 void process_vertex_late(int v);
 void topological_sort(graph *g);
+void read_labels(FILE *fp, int labels[], int n);
 
 stack s;
 search_data data;
 
 int main(void) {
   graph g;
-  read_graph(&g, true);
+  read_graph(&g, true, false);
   print_graph(&g);
 
   topological_sort(&g);
@@ -55,3 +57,12 @@ void topological_sort(graph *g) {
   print_stack(&s);
 }
 
+void read_labels(FILE *fp, int labels[], int n) {
+  if (!fp) return;
+
+  int x, y;
+  for (int i = 0; i < n; i++) {
+    fscanf(fp, "%d %d", &x, &y);
+    labels[x] = y;
+  }
+}

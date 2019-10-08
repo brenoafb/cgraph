@@ -24,6 +24,6 @@ typedef struct graph {
 
 void initialize_graph(graph *g, bool directed);
 void deinit_graph(graph *g);
-void read_graph(graph *g, bool directed);
-void insert_edge(graph *g, int x, int y, bool directed);
+void read_graph(graph *g, bool directed, bool weighted);
+void insert_edge(graph *g, int x, int y, int w, bool directed);
 void print_graph(graph *g);
