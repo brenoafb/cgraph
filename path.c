@@ -1,16 +1,17 @@
 #include "path.h"
 
-void init_path_data(graph *g, path_data *data) {
+void init_path_data(path_data *data, int start) {
+  data->start = start;
   for (int i = 0; i < MAXV; i++) {
     data->intree[i] = false;
     data->distance[i] = INT_MAX;
     data->parent[i] = NIL;
   }
+  data->distance[start] = 0;
 }
 
-void dijkstra(graph *g, int start, path_data *data) {
-  data->parent[start] = 0;
-  int u = start;
+void dijkstra(graph *g, path_data *data) {
+  int u = data->start;
 
   while (!data->intree[u]) {
     data->intree[u] = true;
@@ -18,7 +19,7 @@ void dijkstra(graph *g, int start, path_data *data) {
     while (p) {
       int v = p->v;
       int weight = p->weight;
-      if (data->distance[v] > data->distance[u] + weight) {
+      if (data->distance[v] > (data->distance[u] + weight)) {
 	data->distance[v] = data->distance[u] + weight;
 	data->parent[v] = u;
       }

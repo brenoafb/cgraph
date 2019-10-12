@@ -4,6 +4,7 @@
 #include "graph.h"
 #include "stack.h"
 #include "search.h"
+#include "path.h"
 
 void process_edge(int u, int v);
 void process_vertex_early(int v);
@@ -16,10 +17,19 @@ search_data data;
 
 int main(void) {
   graph g;
-  read_graph(&g, true, false);
+  read_graph(&g, true, true);
   print_graph(&g);
 
   topological_sort(&g);
+
+  path_data data;
+  init_path_data(&data, 0);
+  dijkstra(&g, &data);
+
+  printf("Shortest distances from vertex 0:\n");
+  for (int i = 0; i < g.nvertices; i++) {
+    printf("%d: %d\n", i, data.distance[i]);
+  }
 
   deinit_graph(&g);
 }
