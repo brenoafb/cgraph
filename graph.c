@@ -54,7 +54,7 @@ void insert_edge(graph *g, int x, int y, int w, bool directed) {
 
   edgenode *p = malloc(sizeof(edgenode));
   p->v = y;
-  p->weight = 0;
+  p->weight = w;
   p->next = g->edges[x];
   g->edges[x] = p;
   g->degrees[x]++;
