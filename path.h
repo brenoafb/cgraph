@@ -14,4 +14,4 @@ typedef struct path_data {
 } path_data;
 
 void init_path_data(path_data *data, int start);
-void dijkstra(graph *g, path_data *data);
+void dijkstra_reversed(graph *g, path_data *data);

@@ -35,8 +35,8 @@ int main(void) {
 
   path_data data;
   init_path_data(&data, order[0]);
-  dijkstra(&g, &data);
-  printf("Shortest distance from %d to %d: %d\n",
+  dijkstra_reversed(&g, &data);
+  printf("Longest distance from %d to %d: %d\n",
 	 order[0], order[g.nvertices-1], data.distance[g.nvertices-1]);
 
   deinit_graph(&g);
