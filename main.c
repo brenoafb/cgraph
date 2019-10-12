@@ -33,17 +33,11 @@ int main(void) {
     printf("%d\n", labels[order[i]]);
   }
 
-
-  /*
   path_data data;
-  init_path_data(&data, 0);
+  init_path_data(&data, order[0]);
   dijkstra(&g, &data);
-
-  printf("Shortest distances from vertex 0:\n");
-  for (int i = 0; i < g.nvertices; i++) {
-    printf("%d: %d\n", i, data.distance[i]);
-  }
-  */
+  printf("Shortest distance from %d to %d: %d\n",
+	 order[0], order[g.nvertices-1], data.distance[g.nvertices-1]);
 
   deinit_graph(&g);
 }
