@@ -18,10 +18,23 @@ search_data data;
 int main(void) {
   graph g;
   read_graph(&g, true, true);
-  print_graph(&g);
+  int labels[g.nvertices];
+  FILE *fp= fopen("g1.txt", "r");
+  read_labels(fp, labels, g.nvertices);
+  // print_graph(&g);
 
   topological_sort(&g);
 
+  int order[g.nvertices];
+
+  printf("\n");
+  for (int i = 0; i < g.nvertices; i++) {
+    order[i] = pop_stack(&s);
+    printf("%d\n", labels[order[i]]);
+  }
+
+
+  /*
   path_data data;
   init_path_data(&data, 0);
   dijkstra(&g, &data);
@@ -30,12 +43,13 @@ int main(void) {
   for (int i = 0; i < g.nvertices; i++) {
     printf("%d: %d\n", i, data.distance[i]);
   }
+  */
 
   deinit_graph(&g);
 }
 
 void process_edge(int u, int v) {
-  printf("Found edge (%d,%d)\n", u, v);
+  // printf("Found edge (%d,%d)\n", u, v);
   int class = edge_classification(&data, u, v);
   if (class == BACK) {
     printf("Warning: found back edge (not a DAG)\n");
@@ -43,11 +57,12 @@ void process_edge(int u, int v) {
 }
 
 void process_vertex_early(int v) {
-  printf("Found vertex %d\n", v);
+  // printf("Found vertex %d\n", v);
+  return;
 }
 
 void process_vertex_late(int v) {
-  printf("Done processing vertex %d\n", v);
+  // printf("Done processing vertex %d\n", v);
   push_stack(&s, v);
 }
 
