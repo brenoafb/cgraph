@@ -60,17 +60,11 @@ int main(int argc, char *argv[]) {
 
   int order[g.nvertices];
   printf("\nTopological sort:\n");
-  // for (int i = 0; i < g.nvertices; i++) {
-  //   order[i] = pop_stack(&s);
-  //   if (i != 0) {
-  //     printf("%d\t%d\t%s\n", i, labels[order[i]], names[order[i]]);
-  //   }
-  // }
   int i = 0;
   while (!is_empty_stack(&s)) {
     order[i] = pop_stack(&s);
     if (i != 0) {
-      printf("%d\t%s\n", labels[order[i]], names[order[i]]);
+      printf("%d\t%d\t%s\n", order[i], labels[order[i]], names[order[i]]);
     }
     i++;
   }
@@ -79,7 +73,7 @@ int main(int argc, char *argv[]) {
   init_path_data(&data, order[1]);
   dijkstra_reversed(&g, &data);
   printf("\nLongest distance from %d to %d: %d\n",
-	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[g.nvertices-1]);
+	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[order[g.nvertices-1]]);
 
   for (int i = 0; i < g.nvertices; i++) {
     free(names[i]);
