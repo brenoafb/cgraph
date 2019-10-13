@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX 32
+#define MAX 33
 #define MAXLEN 1024
 
 int indexof(int x, int a[]) {
