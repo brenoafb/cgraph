@@ -30,20 +30,21 @@ void deinit_graph(graph *g) {
   }
 }
 
-void read_graph(graph *g, bool directed, bool weighted) {
+void read_graph_file(graph *g, bool directed, bool weighted, FILE *fp) {
   if (!g) return;
+  if (!fp) return;
   initialize_graph(g, directed);
 
   int nedges;
-  scanf("%d %d", &g->nvertices, &nedges);
+  fscanf(fp, "%d %d", &g->nvertices, &nedges);
 
   for (int i = 0; i < nedges; i++) {
     int x, y;
     int w = 0;
     if (weighted) {
-      scanf("%d %d %d", &x, &y, &w);
+      fscanf(fp, "%d %d %d", &x, &y, &w);
     } else {
-      scanf("%d %d", &x, &y);
+      fscanf(fp, "%d %d", &x, &y);
     }
     insert_edge(g, x, y, w, directed);
   }
