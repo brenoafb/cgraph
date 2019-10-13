@@ -16,7 +16,7 @@ void push_stack(stack *s, int x) {
 }
 
 bool is_empty_stack(stack *s) {
-  assert(s->n > 0);
+  assert(s->n >= 0);
   return s->n == 0;
 }
 

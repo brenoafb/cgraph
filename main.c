@@ -7,7 +7,7 @@
 #include "search.h"
 #include "path.h"
 
-#define MAXLEN 1024
+#define MAXLEN 128
 
 void process_edge(int u, int v);
 void process_vertex_early(int v);
@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
   if (argc != 3) {
     printf("Usage: ./%s [graph file] [labels file]\n",
 	   argv[0]);
+    return 0;
   }
 
   char *graph_file = argv[1];
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
   FILE *fp = fopen(graph_file, "r");
 
   if (!fp) {
-    printf("Error reading graph file %s\n", graph_file);
+    printf("Error opening graph file %s\n", graph_file);
     return 1;
   }
 
@@ -40,13 +41,18 @@ int main(int argc, char *argv[]) {
   fp = fopen(labels_file, "r");
 
   if (!fp) {
-    printf("Error reading labels file %s\n", labels_file);
+    printf("Error opening labels file %s\n", labels_file);
     return 2;
   }
 
   int labels[g.nvertices];
-  char names[g.nvertices][MAXLEN];
-  read_labels_file(labels, g.nvertices, names, fp);
+  char *names[g.nvertices];
+
+  for (int i = 0; i < g.nvertices; i++) {
+    names[i] = calloc(sizeof(char), MAXLEN);
+  }
+
+  read_labels_file(labels, names, g.nvertices, fp);
 
   fclose(fp);
 
@@ -54,16 +60,30 @@ int main(int argc, char *argv[]) {
 
   int order[g.nvertices];
   printf("\nTopological sort:\n");
-  for (int i = 0; i < g.nvertices; i++) {
+  // for (int i = 0; i < g.nvertices; i++) {
+  //   order[i] = pop_stack(&s);
+  //   if (i != 0) {
+  //     printf("%d\t%d\t%s\n", i, labels[order[i]], names[order[i]]);
+  //   }
+  // }
+  int i = 0;
+  while (!is_empty_stack(&s)) {
     order[i] = pop_stack(&s);
-    printf("%d %s\n", labels[order[i]], names[order[i]]);
+    if (i != 0) {
+      printf("%d\t%s\n", labels[order[i]], names[order[i]]);
+    }
+    i++;
   }
 
   path_data data;
-  init_path_data(&data, order[0]);
+  init_path_data(&data, order[1]);
   dijkstra_reversed(&g, &data);
   printf("\nLongest distance from %d to %d: %d\n",
-	 order[0], order[g.nvertices-1], data.distance[g.nvertices-1]);
+	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[g.nvertices-1]);
+
+  for (int i = 0; i < g.nvertices; i++) {
+    free(names[i]);
+  }
 
   deinit_graph(&g);
 }
@@ -98,8 +118,6 @@ void topological_sort(graph *g) {
       dfs(g, &data, i);
     }
   }
-
-  print_stack(&s);
 }
 
 void read_labels_file(int labels[], char *names[], int n, FILE *fp) {
