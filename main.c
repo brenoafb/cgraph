@@ -14,7 +14,7 @@ void process_vertex_early(int v);
 void process_vertex_late(int v);
 void topological_sort(graph *g);
 void read_labels_file(int labels[], char *names[], int n, FILE *fp);
-
+void show_critical_path(int* path, char *names[], int current_index);
 stack s;
 search_data data;
 
@@ -59,6 +59,8 @@ int main(int argc, char *argv[]) {
   topological_sort(&g);
 
   int order[g.nvertices];
+  //order = malloc(sizeof(int) * g.nvertices);
+
   printf("\nTopological sort:\n");
   int i = 0;
   while (!is_empty_stack(&s)) {
@@ -74,6 +76,15 @@ int main(int argc, char *argv[]) {
   dijkstra_reversed(&g, &data);
   printf("\nLongest distance from %d to %d: %d\n",
 	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[order[g.nvertices-1]]);
+
+  printf("\nCritical path:\n");
+
+  show_critical_path(data.parent, names, 32);
+
+  printf("%s\n", names[32]);
+
+
+ // free(order);
 
   for (int i = 0; i < g.nvertices; i++) {
     free(names[i]);
@@ -123,5 +134,12 @@ void read_labels_file(int labels[], char *names[], int n, FILE *fp) {
     fscanf(fp, "%d %d %[^\n]", &x, &y, tmp);
     labels[x] = y;
     strcpy(names[x], tmp);
+  }
+}
+
+void show_critical_path(int* path, char* names[], int current_index ) {
+  if (current_index != 0) {
+    show_critical_path(path, names, path[current_index]);
+    printf("%s -> ", names[path[current_index]]);
   }
 }
