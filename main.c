@@ -73,16 +73,37 @@ int main(int argc, char *argv[]) {
 
   path_data data;
   init_path_data(&data, order[0]);
-  dijkstra_reversed(&g, &data);
-  printf("\nLongest distance from %d to %d: %d\n",
-	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[order[g.nvertices-1]]);
 
-  printf("\nCritical path:\n");
+  dijkstra_reversed(&g, &data);
+
+  printf("\nCritical path (considering total credits amount):\n");
 
   show_critical_path(data.parent, names, 32);
 
   printf("%s\n", names[32]);
 
+  printf("\nLongest distance from %d to %d: %d\n",
+	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[order[g.nvertices-1]]);
+
+  for (int i = 0; i < g.nedges; i++) {
+    if (g.edges[i]) {
+      g.edges[i]->weight = 1;
+    }
+  }
+  
+  path_data data_non_w;
+  init_path_data(&data_non_w, order[0]);
+
+  dijkstra_reversed(&g, &data);
+
+  printf("\nCritical path (considering total courses amount):\n");
+
+  show_critical_path(data.parent, names, 32);
+
+  printf("%s\n", names[32]);
+
+  printf("\nLongest distance from %d to %d: %d\n",
+	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[order[g.nvertices-1]]);
 
  // free(order);
 
