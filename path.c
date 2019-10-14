@@ -28,10 +28,11 @@ void dijkstra_reversed(graph *g, path_data *data) {
 
     u = 0;
     int dist = INT_MIN;
+    
     for (int i = 0; i < g->nvertices; i++) {
       if (!data->intree[i] && (dist < data->distance[i])) {
-	dist = data->distance[i];
-	u = i;
+	      dist = data->distance[i];
+	      u = i;
       }
     }
   }

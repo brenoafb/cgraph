@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
   }
 
   path_data data;
-  init_path_data(&data, order[1]);
+  init_path_data(&data, order[0]);
   dijkstra_reversed(&g, &data);
   printf("\nLongest distance from %d to %d: %d\n",
 	 labels[order[1]], labels[order[g.nvertices-1]], data.distance[order[g.nvertices-1]]);

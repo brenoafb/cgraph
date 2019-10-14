@@ -1,4 +1,4 @@
-CC=clang
+CC=gcc
 CFLAGS= -Wall -Wextra -g
 DEPS = graph.h stack.h queue.h search.h path.h
 OBJ = graph.o stack.o queue.o search.o path.o
